@@ -1,30 +1,54 @@
 #include <iostream>
 #include <fstream>
-#include <list>
+#include <vector>
+#include <string>
 
 #define INPUT_FILE "calibrationFile.txt" 
 
-bool isNum(char line[], int i) {
+bool match(std::string goal, char in[], int i) {
+    for(int j=0; goal[j]!='\0'; j++) {
+        if(goal[j] != in[i+j]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int isNum(char line[], int i) {
     char c = line[i];
 
     if((c>='0') && (c<='9')) {
-        return true;
+        return c-'0';
     }
 
-    return false;
+    // problem 2
+    std::vector<std::string> nums = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    if(c!='z' && c!='o' && c!='t' && c!='f' && c!='s' && c!='e' && c!='n') {
+        return -1;
+    }
+
+    for(int idx = 0; idx<10; idx++) {
+        if(match(nums.at(idx), line, i)) {
+            return idx;
+        }
+    }
+    
+    return -1;
 }
 
 int get_val(char line[]) {
     int first = -1;
     int last = -1;
     int i=0;
+    int num;
 
     while(line[i] != '\0') {
-        if(first==-1 && isNum(line, i)) {
-            first = line[i] - '0';
+        num = isNum(line, i);
+        if(first==-1 && num!=-1) {
+            first = num;
         }
-        if(isNum(line, i)) {
-            last = line[i] - '0';
+        if(num!=-1) {
+            last = num;
         }
         i++;
     }
@@ -36,7 +60,6 @@ int main(void) {
     int sum = 0;
     char line[64];
     std::ifstream file;
-    std::list<char> fchars;
     file.open(INPUT_FILE);
     if(!file.is_open()) {
         return 1;
