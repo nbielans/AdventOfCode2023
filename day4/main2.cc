@@ -102,6 +102,7 @@ int main(void) {
         std::getline(file, line);
     } while(line[0] != '\0');
 
+    file.close();
     std::cout << "Num_cards: " << num_cards << std::endl;
     return 0;
 }

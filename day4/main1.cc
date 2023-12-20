@@ -79,6 +79,7 @@ int main(void) {
         std::getline(file, line);
     } while(line[0] != '\0');
 
+    file.close();
     std::cout << "Winnings: " << sum_winnings << std::endl;
     return 0;
 }
