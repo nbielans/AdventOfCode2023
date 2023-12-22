@@ -124,7 +124,6 @@ long getWinnings(const std::list<Hand>& players) {
     long winnings = 0;
     int i = 1;
     for(auto player: players) {
-        std::cout << player.getBid() << ' ' << player.getType() << std::endl;
         winnings += i*player.getBid();
         i++;
     }
